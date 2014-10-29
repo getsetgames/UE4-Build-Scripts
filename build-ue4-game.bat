@@ -60,12 +60,12 @@ git checkout %ENGINE_CHECKOUT%
 git submodule update --init --recursive
 
 echo Extracting the Required files 1 of 2...
-jar xf %REQUIRED_FILES_1%
+7z x %REQUIRED_FILES_1% -o%ENGINE_DIRECTORY%
 
 echo Extracting the Required files 2 of 2...
-jar xf %REQUIRED_FILES_2%
+7z x %REQUIRED_FILES_2% -o%ENGINE_DIRECTORY%
 
 echo Extracting the Optional files...
-jar xf %REQUIRED_FILES_OPT%
+7z x %REQUIRED_FILES_OPT% -o%ENGINE_DIRECTORY%
 
 %ENGINE_DIRECTORY%/Engine/Build/BatchFiles/RunUAT.bat BuildCookRun -project=%PROJECT% -build -%PLATFORM% -clientconfig=%CLIENT_CONFIG% -distribution -cook -stage -package -archive -archivedirectory=%ARCHIVE_DIRECTORY%
