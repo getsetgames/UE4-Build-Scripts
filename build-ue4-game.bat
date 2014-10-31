@@ -46,6 +46,11 @@ echo REQUIRED_FILES_2=%REQUIRED_FILES_2%
 echo REQUIRED_FILES_OPT=%REQUIRED_FILES_OPT%
 echo ARCHIVE_DIRECTORY=%ARCHIVE_DIRECTORY%
 
+if exist "%ARCHIVE_DIRECTORY%" (
+	echo Removing old archive directory...
+  rmdir /s /q "%ARCHIVE_DIRECTORY%"
+)
+
 if exist %ENGINE_DIRECTORY% (
 	echo Updating the engine...
 	cd %ENGINE_DIRECTORY%
