@@ -47,25 +47,28 @@ echo REQUIRED_FILES_OPT=%REQUIRED_FILES_OPT%
 echo ARCHIVE_DIRECTORY=%ARCHIVE_DIRECTORY%
 
 if exist %ENGINE_DIRECTORY% (
-	echo Removing the old engine...
-	rmdir /s /q %ENGINE_DIRECTORY%
+	echo Updating the engine...
+	cd %ENGINE_DIRECTORY%
+	git fetch origin
+	git pull origin %ENGINE_CHECKOUT%
+	git submodule update --init --recursive
+) ELSE (
+	echo Cloning the engine from git...
+	git clone %ENGINE_URL% %ENGINE_DIRECTORY%
+
+	echo Checking out the requested commit...
+	cd %ENGINE_DIRECTORY%
+	git checkout %ENGINE_CHECKOUT%
+	git submodule update --init --recursive
+
+	echo Extracting the Required files 1 of 2...
+	7z x %REQUIRED_FILES_1% -o%ENGINE_DIRECTORY%
+
+	echo Extracting the Required files 2 of 2...
+	7z x %REQUIRED_FILES_2% -o%ENGINE_DIRECTORY%
+
+	echo Extracting the Optional files...
+	7z x %REQUIRED_FILES_OPT% -o%ENGINE_DIRECTORY%
 )
-
-echo Cloning the engine from git...
-git clone %ENGINE_URL% %ENGINE_DIRECTORY%
-
-echo Checking out the requested commit...
-cd %ENGINE_DIRECTORY%
-git checkout %ENGINE_CHECKOUT%
-git submodule update --init --recursive
-
-echo Extracting the Required files 1 of 2...
-7z x %REQUIRED_FILES_1% -o%ENGINE_DIRECTORY%
-
-echo Extracting the Required files 2 of 2...
-7z x %REQUIRED_FILES_2% -o%ENGINE_DIRECTORY%
-
-echo Extracting the Optional files...
-7z x %REQUIRED_FILES_OPT% -o%ENGINE_DIRECTORY%
 
 %ENGINE_DIRECTORY%/Engine/Build/BatchFiles/RunUAT.bat BuildCookRun -project=%PROJECT% -build -%PLATFORM% -clientconfig=%CLIENT_CONFIG% -distribution -cook -stage -package -obbinapk -archive -archivedirectory=%ARCHIVE_DIRECTORY%
