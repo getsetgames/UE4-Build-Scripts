@@ -66,28 +66,29 @@ echo REQUIRED_FILES_OPT=$REQUIRED_FILES_OPT
 echo ARCHIVE_DIRECTORY=$ARCHIVE_DIRECTORY
 
 if [ -d "$ENGINE_DIRECTORY" ]; then
-	echo "Removing the old engine..."
+	echo "Updating the engine..."
 	cd "$ENGINE_DIRECTORY"
-	rm -rf *
-	rm -rf .git*
+	git fetch origin 
+	git pull origin $ENGINE_CHECKOUT
+	git submodule update --init --recursive 
+else
+	echo "Cloning the engine from git..."
+	git clone "$ENGINE_URL" "$ENGINE_DIRECTORY"
+
+	echo "Checking out the requested commit..."
+	cd "$ENGINE_DIRECTORY"
+	git checkout $ENGINE_CHECKOUT
+	git submodule update --init --recursive
+
+	echo "Extracting the Required files 1 of 2..."
+	tar -xf "$REQUIRED_FILES_1" -C "$ENGINE_DIRECTORY"
+
+	echo "Extracting the Required files 2 of 2..."
+	tar -xf "$REQUIRED_FILES_2" -C "$ENGINE_DIRECTORY"
+
+	echo "Extracting the Optional files..."
+	tar -xf "$REQUIRED_FILES_OPT" -C "$ENGINE_DIRECTORY"	
 fi
-
-echo "Cloning the engine from git..."
-git clone "$ENGINE_URL" "$ENGINE_DIRECTORY"
-
-echo "Checking out the requested commit..."
-cd "$ENGINE_DIRECTORY"
-git checkout $ENGINE_CHECKOUT
-git submodule update --init --recursive
-
-echo "Extracting the Required files 1 of 2..."
-tar -xf "$REQUIRED_FILES_1" -C "$ENGINE_DIRECTORY"
-
-echo "Extracting the Required files 2 of 2..."
-tar -xf "$REQUIRED_FILES_2" -C "$ENGINE_DIRECTORY"
-
-echo "Extracting the Optional files..."
-tar -xf "$REQUIRED_FILES_OPT" -C "$ENGINE_DIRECTORY"
 
 echo "Packaging the project..."
 "$ENGINE_DIRECTORY/Engine/Build/BatchFiles/RunUAT.sh" BuildCookRun -project="$PROJECT" -build -$PLATFORM -clientconfig=$CLIENT_CONFIG -distribution -cook -stage -package -archive -archivedirectory="$ARCHIVE_DIRECTORY"
