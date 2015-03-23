@@ -6,6 +6,12 @@ These scripts build Unreal Engine 4 game projects using the engine source code p
 2. Run the Setup script to download the dependencies provided by Epic to the engine directory.
 3. Run Unreal Automation Tool to build the game, cook the content and package it.
 
+## Usage (Windows)
+
+```bat
+build-ue4-game.bat "<full path to my .uproject file>" "Android" "Development" "git@github.com:EpicGames/UnrealEngine.git" "4.7" "<full path to desired engine location>" "<full path to archive directory>"
+```
+
 ## Usage (Mac)
 
 ```shell
