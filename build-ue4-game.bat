@@ -52,7 +52,7 @@ if exist %ENGINE_DIRECTORY% (
 	git submodule update --init --recursive
 
 	echo Adding dependencies...
-	%ENGINE_DIRECTORY%/Setup.bat
+	Setup.bat
 )
 
 %ENGINE_DIRECTORY%/Engine/Build/BatchFiles/RunUAT.bat BuildCookRun -project=%PROJECT% -build -%PLATFORM% -clientconfig=%CLIENT_CONFIG% -distribution -cook -stage -package -obbinapk -archive -archivedirectory=%ARCHIVE_DIRECTORY%
