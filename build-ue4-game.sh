@@ -73,4 +73,4 @@ else
 fi
 
 echo "Packaging the project..."
-"$ENGINE_DIRECTORY/Engine/Build/BatchFiles/RunUAT.sh" BuildCookRun -project="$PROJECT" -build -$PLATFORM -clientconfig=$CLIENT_CONFIG -distribution -cook -stage -package -archive -archivedirectory="$ARCHIVE_DIRECTORY"
+"$ENGINE_DIRECTORY/Engine/Build/BatchFiles/RunUAT.sh" BuildCookRun -project="$PROJECT" -build -$PLATFORM -clientconfig=$CLIENT_CONFIG -distribution -cook -stage -package -archive -archivedirectory="$ARCHIVE_DIRECTORY" GenerateDSYM -project="$PROJECT"
