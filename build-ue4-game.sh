@@ -58,7 +58,8 @@ if [ -d "$ENGINE_DIRECTORY" ]; then
 	cd "$ENGINE_DIRECTORY"
 	git fetch origin 
 	git pull origin $ENGINE_CHECKOUT
-	git submodule update --init --recursive 
+	git submodule update --init --recursive
+	$ENGINE_DIRECTORY/Setup.sh --force
 else
 	echo "Cloning the engine from git..."
 	git clone "$ENGINE_URL" "$ENGINE_DIRECTORY"
